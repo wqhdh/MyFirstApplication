@@ -1,6 +1,10 @@
 package com.jnu.student.data;
 
-public class BookItem {
+import java.io.Serializable;
+
+public class BookItem implements Serializable {
+    
+
     public int getImageId() {
         return imageId;
     }
@@ -11,10 +15,14 @@ public class BookItem {
         return name;
     }
 
-    private final String name;
+    private String name;
 
     public BookItem(String name_, int bookId_) {
         this.name=name_;
         this.imageId=bookId_;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }
