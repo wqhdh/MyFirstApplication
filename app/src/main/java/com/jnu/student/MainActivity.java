@@ -35,7 +35,9 @@ import com.jnu.student.data.DataBank;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
-    private String []tabHeaderStrings = {"Shopping items","baidu maps","News"};
+//    private String []tabHeaderStrings = {"Shopping items","baidu maps","News"};
+
+    private String []tabHeaderStrings  = {"图书","地图","新闻"};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
                 case 0:
                     return new ShoppingListFragment();
                 case 1:
-                    return new BaiduMapFragment();
+                    return new TencentMapFragment();
                 case 2:
                     return new WebViewFragment();
                 default:
