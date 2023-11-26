@@ -37,7 +37,9 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
 //    private String []tabHeaderStrings = {"Shopping items","baidu maps","News"};
 
-    private String []tabHeaderStrings  = {"图书","地图","新闻","时钟"};
+//    private String []tabHeaderStrings  = {"图书","地图","新闻","时钟"};
+    private String []tabHeaderStrings  = {"任务","奖励","统计","我"};
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,8 +49,8 @@ public class MainActivity extends AppCompatActivity {
         ViewPager2 viewPager = findViewById(R.id.view_pager);
         TabLayout tabLayout = findViewById(R.id.tab_layout);
 
-        FragmentAdapter pagerAdapter = new FragmentAdapter(getSupportFragmentManager(), getLifecycle());
-        viewPager.setAdapter(pagerAdapter);
+        FragmentAdapter fragmentAdapter = new FragmentAdapter(getSupportFragmentManager(), getLifecycle());
+        viewPager.setAdapter(fragmentAdapter);
 
         new TabLayoutMediator(tabLayout, viewPager,
                 (tab, position) -> tab.setText(tabHeaderStrings[position])
@@ -68,13 +70,13 @@ public class MainActivity extends AppCompatActivity {
         public Fragment createFragment(int position) {
             switch (position) {
                 case 0:
-                    return new ShoppingListFragment();
+                    return new TaskFragment();
                 case 1:
-                    return new TencentMapFragment();
+                    return new RewardFragment();
                 case 2:
-                    return new WebViewFragment();
+                    return new StatisticFragment();
                 case 3:
-                    return new ClockViewFragment();
+                    return new MeFragment();
                 default:
                     return null;
             }
