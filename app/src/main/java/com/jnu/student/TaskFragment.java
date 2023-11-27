@@ -95,7 +95,7 @@ public class TaskFragment extends Fragment {
                         tab.setText("日常任务");
                         break;
                     case 1:
-                        tab.setText("每周任务");
+                        tab.setText("周常任务");
                         break;
                     case 2:
                         tab.setText("普通任务");

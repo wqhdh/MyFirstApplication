@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main_recycleview);
+        setContentView(R.layout.activity_main);
 
         ViewPager2 viewPager = findViewById(R.id.view_pager);
         TabLayout tabLayout = findViewById(R.id.tab_layout);
@@ -73,10 +73,10 @@ public class MainActivity extends AppCompatActivity {
                     return new TaskFragment();
                 case 1:
                     return new RewardFragment();
-                case 2:
-                    return new StatisticFragment();
-                case 3:
-                    return new MeFragment();
+//                case 2:
+//                    return new StatisticFragment();
+//                case 3:
+//                    return new MeFragment();
                 default:
                     return null;
             }

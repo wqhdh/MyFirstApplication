@@ -11,9 +11,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MyFirstApplication"
-        tools:targetApi="31">
+        tools:targetApi="33">
         <activity
-            android:name=".BookItemDetailsActivity"
+            android:name=".TaskDetailsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".RewardDetailsActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
@@ -24,9 +27,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <meta-data
-            android:name="TencentMapSDK"
-            android:value="CQTBZ-VRIWM-6JL6O-6ZJZ6-3HF33-V5FEY"/>
+
     </application>
     <!--腾讯地图 SDK 要求的权限(开始)-->
     <!--访问网络获取地图服务-->
