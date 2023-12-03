@@ -35,6 +35,7 @@ public class DailyTaskFragment extends Fragment {
     private static ArrayList<DailyTask> dailyTaskList; // 任务列表
     private static DailyTaskFragment.TaskAdapter TaskAdapter;
     public TaskFinishedData finishedData;
+    private TextView total_point;
     public int flag=0;
 
     public DailyTaskFragment() {
@@ -68,7 +69,8 @@ public class DailyTaskFragment extends Fragment {
     @Override
     public void onResume(){
         super.onResume();
-//        mainRecyclerView.setOnCreateContextMenuListener(this);
+        int point=(new DataBank().LoadFinishedDataItems(requireActivity())).getPoint();
+        total_point.setText("目前总任务币："+point);
         flag=1;
         TaskFragment.buttonAdd.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -84,7 +86,6 @@ public class DailyTaskFragment extends Fragment {
         super.onPause();
         flag=0;
         TaskFragment.buttonAdd.setOnClickListener(null);
-//        mainRecyclerView.setOnCreateContextMenuListener(null);
     }
 
     @Override
@@ -98,9 +99,9 @@ public class DailyTaskFragment extends Fragment {
 
         dailyTaskList =new DataBank().LoadDailyTaskItems(requireActivity());
         if(0== dailyTaskList.size()){
-            dailyTaskList.add(new DailyTask("学习", 150, false));
+            dailyTaskList.add(new DailyTask("学习", 100, false));
         }
-
+        total_point=TaskFragment.view.findViewById(R.id.total_point);
         TaskAdapter = new DailyTaskFragment.TaskAdapter(dailyTaskList);
         mainRecyclerView.setAdapter(TaskAdapter);
 
@@ -217,7 +218,7 @@ public class DailyTaskFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
                     finishedData=new DataBank().LoadFinishedDataItems(requireActivity());
-                    if(finishedData.setPoint(dailyTaskArrayList.get(position).getPoint(), RewardList.get(position).getPoint())) {
+                    if(finishedData.setPoint(1,dailyTaskArrayList.get(position).getPoint())) {
                         finishedData.addFinishedDataItem(1,dailyTaskArrayList.get(position).getName(), dailyTaskArrayList.get(position).getPoint());
                         new DataBank().SavaFinishedDataItems(requireActivity(), finishedData);
                     }
@@ -225,6 +226,9 @@ public class DailyTaskFragment extends Fragment {
                     dailyTaskList.remove(viewHolder.getAdapterPosition());
                     TaskAdapter.notifyItemRemoved(viewHolder.getAdapterPosition());
                     new DataBank().SavaDailyTaskItems(requireActivity(), dailyTaskList);
+
+                    int point=(new DataBank().LoadFinishedDataItems(requireActivity())).getPoint();
+                    total_point.setText("目前总积分："+point);
                 }
             });
             viewHolder.getTaskName().setText(dailyTaskArrayList.get(position).getName());
