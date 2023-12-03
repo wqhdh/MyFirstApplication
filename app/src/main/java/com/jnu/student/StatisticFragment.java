@@ -1,42 +1,34 @@
 package com.jnu.student;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
-import com.jnu.student.data.DataBank;
 
-public class TaskFragment extends Fragment {
-    private RecyclerView.Adapter fragmentAdapter;
+public class StatisticFragment extends Fragment {
+    public static Button buttonBill;
     private TabLayout tabLayout;
     private ViewPager2 taskViewPager;
-    public static View view;
-    private TextView total_point;
-    public DailyTaskFragment dailyTaskFragment;
-    public WeeklyTaskFragment weeklyTaskFragment;
-    public NormalTaskFragment normalTaskFragment;
 
-    public static Button buttonAdd; // 创建一个按钮对象
-    public TaskFragment() {
+    public StatisticFragment() {
         // Required empty public constructor
     }
 
-    public static TaskFragment newInstance(String param1, String param2) {
-        TaskFragment fragment = new TaskFragment();
+    // TODO: Rename and change types and number of parameters
+    public static StatisticFragment newInstance(String param1, String param2) {
+        StatisticFragment fragment = new StatisticFragment();
         Bundle args = new Bundle();
-
         fragment.setArguments(args);
         return fragment;
     }
@@ -44,11 +36,7 @@ public class TaskFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        dailyTaskFragment=new DailyTaskFragment();
-//        weeklyTaskFragment=new WeeklyTaskFragment();
-//        normalTaskFragment=new NormalTaskFragment();
         if (getArguments() != null) {
-
         }
     }
 
@@ -56,15 +44,20 @@ public class TaskFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        view = inflater.inflate(R.layout.fragment_task, container, false);
-        buttonAdd=view.findViewById(R.id.add_task_button);
-        tabLayout = view.findViewById(R.id.task_tab_layout);
-        taskViewPager = view.findViewById(R.id.task_view_pager);
-        total_point=view.findViewById(R.id.total_point);
-        int point=(new DataBank().LoadFinishedDataItems(requireActivity())).getPoint();
-        total_point.setText("目前总任务币："+point);
-        return view;
+        View view = inflater.inflate(R.layout.fragment_statistic, container, false);
+        buttonBill=view.findViewById(R.id.bill_button);
+        StatisticFragment.buttonBill.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // 在这里写您想要的功能，例如弹出一个Toast提示
+                Intent intent = new Intent(requireActivity(), BillActivity.class);
+                startActivity(intent);
+            }
+        });
 
+        tabLayout = view.findViewById(R.id.time_tab_layout);
+        taskViewPager = view.findViewById(R.id.statistic_view_pager);
+        return view;
     }
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -76,11 +69,13 @@ public class TaskFragment extends Fragment {
                 // 根据位置返回不同的子fragment
                 switch (position) {
                     case 0:
-                        return new DailyTaskFragment();
+                        return new Dayfragment();
                     case 1:
-                        return new WeeklyTaskFragment();
+                        return new Weekfragment();
                     case 2:
-                        return new NormalTaskFragment();
+                        return new Monthfragment();
+                    case 3:
+                        return new Yearfragment();
                     default:
                         return null;
                 }
@@ -89,7 +84,7 @@ public class TaskFragment extends Fragment {
             @Override
             public int getItemCount() {
                 // 返回子fragment的数量
-                return 3;
+                return 4;
             }
         });
         // 设置tablayout和viewpager2的联动
@@ -99,13 +94,16 @@ public class TaskFragment extends Fragment {
                 // 根据位置设置tab的标题
                 switch (position) {
                     case 0:
-                        tab.setText("日常任务");
+                        tab.setText("日");
                         break;
                     case 1:
-                        tab.setText("周常任务");
+                        tab.setText("周");
                         break;
                     case 2:
-                        tab.setText("普通任务");
+                        tab.setText("月");
+                        break;
+                    case 3:
+                        tab.setText("年");
                         break;
                 }
             }

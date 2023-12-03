@@ -41,14 +41,7 @@ public class RewardFragment extends Fragment {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment RewardFragment.
-     */
+
     // TODO: Rename and change types and number of parameters
     public static RewardFragment newInstance(String param1, String param2) {
         RewardFragment fragment = new RewardFragment();
@@ -233,7 +226,7 @@ public class RewardFragment extends Fragment {
                     else{
                         AlertDialog.Builder builder=new AlertDialog.Builder(requireActivity());
                         builder.setTitle("提示");
-                        builder.setMessage("积分不足！");
+                        builder.setMessage("任务币不足！");
                         builder.create().show();
                         viewHolder.getCheckBox().setChecked(false);
                     }

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/T"
+    android:id="@+id/StatisticId"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -15,9 +15,8 @@
 
         <TextView
             android:id="@+id/textView"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="300"
+            android:layout_width="309dp"
+            android:layout_height="wrap_content"
             android:background="@color/purple_200"
             android:text="@string/textView"
             android:textAlignment="textStart"
@@ -25,38 +24,29 @@
             android:textSize="34sp" />
 
         <Button
-            android:id="@+id/add_task_button"
+            android:id="@+id/bill_button"
             style="@style/Widget.AppCompat.Button.Borderless"
-            android:layout_width="61dp"
+            android:layout_width="100dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
             android:backgroundTint="@color/purple_200"
-            android:text="+"
-            android:textColor="@color/white"
-            android:textSize="24sp" />
+            android:text="账单"
+            android:textColor="#FEFEFE"
+            android:textSize="20sp" />
     </LinearLayout>
 
     <com.google.android.material.tabs.TabLayout
-        android:id="@+id/task_tab_layout"
+        android:id="@+id/time_tab_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:tabGravity="fill"
         app:tabIndicatorColor="@color/purple_200"
         app:tabMode="fixed">
 
-
     </com.google.android.material.tabs.TabLayout>
 
     <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/task_view_pager"
+        android:id="@+id/statistic_view_pager"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1" />
-
-    <TextView
-        android:id="@+id/total_point"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColor="@color/purple_200"
-        android:gravity="center"/>
 </LinearLayout>
