@@ -87,6 +87,7 @@ public class NormalTaskFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView= inflater.inflate(R.layout.fragment_normal_task, container, false);
+        total_point = rootView.findViewById(R.id.total_point);
 
 
         mainRecyclerView = rootView.findViewById(R.id.recycleview_normal_task);
@@ -214,7 +215,7 @@ public class NormalTaskFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
                     finishedData=new DataBank().LoadFinishedDataItems(requireActivity());
-                    if(finishedData.setPoint(normalTaskList.get(position).getPoint(), RewardList.get(position).getPoint())) {
+                    if(normalTaskList != null && position < normalTaskList.size() && RewardList != null && position < RewardList.size()) {
                         finishedData.addFinishedDataItem(3,normalTaskList.get(position).getName(), normalTaskList.get(position).getPoint());
                         new DataBank().SavaFinishedDataItems(requireActivity(), finishedData);
                     }
