@@ -20,6 +20,7 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -82,23 +83,27 @@ public class NormalTaskFragment extends Fragment {
 //        mainRecyclerView.setOnCreateContextMenuListener(null);
     }
 
+    @SuppressLint("MissingInflatedId")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView= inflater.inflate(R.layout.fragment_normal_task, container, false);
-        total_point = rootView.findViewById(R.id.total_point);
+
 
 
         mainRecyclerView = rootView.findViewById(R.id.recycleview_normal_task);
         mainRecyclerView.setLayoutManager(new LinearLayoutManager(requireActivity()));
-
+        mainRecyclerView.addItemDecoration(new DividerItemDecoration(requireActivity(), DividerItemDecoration.VERTICAL));
         normalTaskList =new DataBank().LoadNormalTaskItems(requireActivity());
         if(0== normalTaskList.size()){
             normalTaskList.add(new NormalTask("学习", 130, false));
+            normalTaskList.add(new NormalTask("读书", 130, false));
+            normalTaskList.add(new NormalTask("看报", 130, false));
+            normalTaskList.add(new NormalTask("学习", 130, false));
         }
 
-
+        total_point=TaskFragment.view.findViewById(R.id.total_point);
         TaskAdapter = new NormalTaskFragment.TaskAdapter(normalTaskList);
         mainRecyclerView.setAdapter(TaskAdapter);
 
@@ -214,18 +219,22 @@ public class NormalTaskFragment extends Fragment {
             viewHolder.getCheckBox().setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    finishedData=new DataBank().LoadFinishedDataItems(requireActivity());
-                    if(normalTaskList != null && position < normalTaskList.size() && RewardList != null && position < RewardList.size()) {
-                        finishedData.addFinishedDataItem(3,normalTaskList.get(position).getName(), normalTaskList.get(position).getPoint());
-                        new DataBank().SavaFinishedDataItems(requireActivity(), finishedData);
+                    int position = viewHolder.getAdapterPosition();
+                    if (position >= 0 && position < normalTaskList.size()){
+                        finishedData = new DataBank().LoadFinishedDataItems(requireActivity());
+                        if(finishedData.setPoint(3, normalTaskArrayList.get(position).getPoint())) {
+                            finishedData.addFinishedDataItem(3,normalTaskList.get(position).getName(), normalTaskList.get(position).getPoint());
+                            new DataBank().SavaFinishedDataItems(requireActivity(), finishedData);
+                        }
+
+                        normalTaskList.remove(viewHolder.getAdapterPosition());
+                        NormalTaskFragment.TaskAdapter.notifyItemRemoved(viewHolder.getAdapterPosition());
+                        new DataBank().SavaNormalTaskItems(requireActivity(), normalTaskList);
+
+                        int point=(new DataBank().LoadFinishedDataItems(requireActivity())).getPoint();
+                        total_point.setText("目前总任务币："+point);
                     }
 
-                    normalTaskList.remove(viewHolder.getAdapterPosition());
-                    NormalTaskFragment.TaskAdapter.notifyItemRemoved(viewHolder.getAdapterPosition());
-                    new DataBank().SavaNormalTaskItems(requireActivity(), normalTaskList);
-
-                    int point=(new DataBank().LoadFinishedDataItems(requireActivity())).getPoint();
-                    total_point.setText("目前总任务币："+point);
                 }
             });
             viewHolder.getTaskName().setText(normalTaskArrayList.get(position).getName());

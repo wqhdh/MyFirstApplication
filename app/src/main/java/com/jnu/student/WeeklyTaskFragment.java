@@ -20,6 +20,7 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -92,10 +93,13 @@ public class WeeklyTaskFragment extends Fragment {
 
         mainRecyclerView = rootView.findViewById(R.id.recycleview_weekly_task);
         mainRecyclerView.setLayoutManager(new LinearLayoutManager(requireActivity()));
-
+        mainRecyclerView.addItemDecoration(new DividerItemDecoration(requireActivity(), DividerItemDecoration.VERTICAL));
         weeklyTaskList =new DataBank().LoadWeeklyTaskItems(requireActivity());
         if(0== weeklyTaskList.size()){
             weeklyTaskList.add(new WeeklyTask("学习", 110, false));
+            weeklyTaskList.add(new WeeklyTask("编程", 110, false));
+            weeklyTaskList.add(new WeeklyTask("开发", 110, false));
+            weeklyTaskList.add(new WeeklyTask("运动", 110, false));
         }
         total_point=TaskFragment.view.findViewById(R.id.total_point);
         TaskAdapter = new WeeklyTaskFragment.TaskAdapter(weeklyTaskList);
@@ -212,17 +216,20 @@ public class WeeklyTaskFragment extends Fragment {
             viewHolder.getCheckBox().setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    finishedData=new DataBank().LoadFinishedDataItems(requireActivity());
-                    if(weeklyTaskList != null && position < weeklyTaskList.size() && RewardList != null && position < RewardList.size()) {
-                        finishedData.addFinishedDataItem(2,weeklyTaskList.get(position).getName(), weeklyTaskList.get(position).getPoint());
-                        new DataBank().SavaFinishedDataItems(requireActivity(), finishedData);
-                    }
+                    int position = viewHolder.getAdapterPosition();
+                    if (position >= 0 && position < weeklyTaskList.size()){
+                        finishedData=new DataBank().LoadFinishedDataItems(requireActivity());
+                        if(finishedData.setPoint(2, weeklytaskArrayList.get(position).getPoint())) {
+                            finishedData.addFinishedDataItem(2,weeklyTaskList.get(position).getName(), weeklyTaskList.get(position).getPoint());
+                            new DataBank().SavaFinishedDataItems(requireActivity(), finishedData);
+                        }
 
-                    weeklyTaskList.remove(viewHolder.getAdapterPosition());
-                    WeeklyTaskFragment.TaskAdapter.notifyItemRemoved(viewHolder.getAdapterPosition());
-                    new DataBank().SavaWeeklyTaskItems(requireActivity(), weeklyTaskList);
-                    int point=(new DataBank().LoadFinishedDataItems(requireActivity())).getPoint();
-                    total_point.setText("目前总任务币："+point);
+                        weeklyTaskList.remove(viewHolder.getAdapterPosition());
+                        WeeklyTaskFragment.TaskAdapter.notifyItemRemoved(viewHolder.getAdapterPosition());
+                        new DataBank().SavaWeeklyTaskItems(requireActivity(), weeklyTaskList);
+                        int point=(new DataBank().LoadFinishedDataItems(requireActivity())).getPoint();
+                        total_point.setText("目前总任务币："+point);
+                    }
                 }
             });
             viewHolder.getTaskName().setText(weeklytaskArrayList.get(position).getName());
